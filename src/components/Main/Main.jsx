@@ -37,6 +37,13 @@ function Main() {
     queryClient.invalidateQueries(["CountryData", selectedCountry]);
   };
 
+  const myBgColor = casesCard
+    ? "red"
+    : recoveredCard
+    ? "green"
+    : deathCard
+    ? "#ed752f"
+    : "black";
   return (
     <>
       <Stack
@@ -48,7 +55,11 @@ function Main() {
           },
         }}
       >
-        <Stack direction={"column"} width={"100%"} p={3}>
+        <Stack
+          direction={"column"}
+          sx={{ width: { xs: "unset", md: "100%" } }}
+          p={3}
+        >
           <Stack
             direction={"row"}
             flexWrap={"wrap"}
@@ -88,12 +99,15 @@ function Main() {
           bgcolor={"#ffffff"}
           p={2}
           m={2}
-          width={"100%"}
           justifyContent={"center"}
           sx={{
             maxWidth: {
               xs: "95%",
               md: "30%",
+            },
+            width: {
+              xs: "unset",
+              md: "100%",
             },
           }}
           height={"100%"}
@@ -113,6 +127,16 @@ function Main() {
           />
         </Stack>
       </Stack>
+
+      <Typography
+        bgcolor={myBgColor}
+        color={"white"}
+        p={2}
+        textAlign={"center"}
+        variant="h6"
+      >
+        Copyright © 2023. Developed By <b> "Huzaifa Qaiser"</b>
+      </Typography>
     </>
   );
 }
