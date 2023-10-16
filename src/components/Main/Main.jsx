@@ -13,6 +13,7 @@ function Main() {
   const [casesCard, setCasesCard] = useState(true);
   const [recoveredCard, setRecoveredCard] = useState(false);
   const [deathCard, setDeathCard] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   const handleCardClick = () => {
     setDeathCard(false);
@@ -37,13 +38,6 @@ function Main() {
     queryClient.invalidateQueries(["CountryData", selectedCountry]);
   };
 
-  const myBgColor = casesCard
-    ? "red"
-    : recoveredCard
-    ? "green"
-    : deathCard
-    ? "#ed752f"
-    : "black";
   return (
     <>
       <Stack
@@ -84,6 +78,8 @@ function Main() {
             handleRecovered={handleRecovered}
             deathCard={deathCard}
             handleDeath={handleDeath}
+            loader={loader}
+            setLoader={setLoader}
           />
           <Box boxShadow={10} borderRadius={5} height={"500px"} p={2}>
             <MapShow
@@ -124,17 +120,13 @@ function Main() {
             casesCard={casesCard}
             recoveredCard={recoveredCard}
             deathCard={deathCard}
+            loader={loader}
+            setLoader={setLoader}
           />
         </Stack>
       </Stack>
 
-      <Typography
-        bgcolor={myBgColor}
-        color={"white"}
-        p={2}
-        textAlign={"center"}
-        variant="h6"
-      >
+      <Typography bgcolor={"#e8e8e8"} p={2} textAlign={"center"} variant="h6">
         Copyright © 2023. Developed By <b> "Huzaifa Qaiser"</b>
       </Typography>
     </>

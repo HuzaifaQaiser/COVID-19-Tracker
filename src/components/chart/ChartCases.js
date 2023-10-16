@@ -4,13 +4,22 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Chart, registerables } from "chart.js";
 import { Typography } from "@mui/material";
+import "../Loader/Loader.css";
 Chart.register(...registerables);
-const ChartCases = ({ casesCard, recoveredCard, deathCard }) => {
+
+const ChartCases = ({
+  casesCard,
+  recoveredCard,
+  deathCard,
+  loader,
+  setLoader,
+}) => {
   const chartData = async () => {
     try {
       const { data } = await axios.get(
         "https://disease.sh/v3/covid-19/historical/all?lastdays=365"
       );
+      setLoader(false);
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -18,41 +27,45 @@ const ChartCases = ({ casesCard, recoveredCard, deathCard }) => {
     }
   };
 
-  const { data: chartApiData, error } = useQuery({
+  const {
+    data: chartApiData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["Chart"],
     queryFn: chartData,
   });
 
   if (error) {
-    return <div>Error loading data</div>;
+    alert("There are some issues our team has encountered soon");
   }
 
-  if (!chartApiData) {
-    return <div>Loading data...</div>;
+  if (isLoading || loader) {
+    return <span className="loader"></span>;
   }
 
-  const xValues = Object.keys(chartApiData.cases);
+  const xValues = Object.keys(chartApiData?.cases || {});
 
   const GraphData = {
     labels: xValues,
     datasets: [
       casesCard
         ? {
-            data: Object.values(chartApiData.cases),
+            data: Object.values(chartApiData?.cases || {}),
             borderColor: "red",
             fill: true,
           }
         : "empty",
       recoveredCard
         ? {
-            data: Object.values(chartApiData.recovered),
+            data: Object.values(chartApiData?.recovered || {}),
             borderColor: "green",
             fill: true,
           }
         : "empty",
       deathCard
         ? {
-            data: Object.values(chartApiData.deaths),
+            data: Object.values(chartApiData?.deaths || {}),
             borderColor: "#ed752f",
             fill: true,
           }

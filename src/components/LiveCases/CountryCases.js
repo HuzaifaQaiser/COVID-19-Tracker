@@ -17,10 +17,16 @@ export default function CountryCases() {
     const response = await axios.get(LiveCases_URL);
     return response.data;
   };
-  const { data } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["sorted"],
     queryFn: LiveCases,
   });
+
+  if (isLoading) return "Loading...";
+
+  if (error) {
+    alert("There are some issues our team has encountered soon");
+  }
 
   const sortedData = data ? [...data].sort((a, b) => b.cases - a.cases) : null;
 
