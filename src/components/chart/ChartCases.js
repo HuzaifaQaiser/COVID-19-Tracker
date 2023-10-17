@@ -7,13 +7,7 @@ import { Typography } from "@mui/material";
 import "../Loader/Loader.css";
 Chart.register(...registerables);
 
-const ChartCases = ({
-  casesCard,
-  recoveredCard,
-  deathCard,
-  loader,
-  setLoader,
-}) => {
+const ChartCases = ({ casesCard, recoveredCard, deathCard, setLoader }) => {
   const chartData = async () => {
     try {
       const { data } = await axios.get(
@@ -27,22 +21,10 @@ const ChartCases = ({
     }
   };
 
-  const {
-    data: chartApiData,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: chartApiData } = useQuery({
     queryKey: ["Chart"],
     queryFn: chartData,
   });
-
-  if (error) {
-    alert("There are some issues our team has encountered soon");
-  }
-
-  if (isLoading || loader) {
-    return <span className="loader"></span>;
-  }
 
   const xValues = Object.keys(chartApiData?.cases || {});
 
@@ -98,7 +80,7 @@ const ChartCases = ({
       }}
     >
       <Typography my={1} variant="h4" textAlign={"center"}>
-        Graph
+        Worldwide Graph
       </Typography>
       <Line data={GraphData} options={options} />
     </div>

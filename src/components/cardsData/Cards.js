@@ -2,8 +2,6 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { Stack } from "@mui/material";
 
 const formatNumber = (value) => {
@@ -17,50 +15,17 @@ const formatNumber = (value) => {
 };
 
 export default function Cards({
-  selectedCountry,
   casesCard,
   handleCardClick,
   recoveredCard,
   handleRecovered,
   deathCard,
   handleDeath,
-  loader,
-  setLoader,
+  data,
 }) {
-  const Cases_URL = `https://disease.sh/v3/covid-19/countries/`;
-  const worldWide_URL = `https://disease.sh/v3/covid-19/all`;
-
-  const worldWide = async () => {
-    const response = await axios.get(worldWide_URL);
-    return response.data;
-  };
-
-  const fetchData = async () => {
-    if (selectedCountry === "worldWide") {
-      setLoader(false);
-      return worldWide();
-    } else {
-      const response = await axios.get(`${Cases_URL}${selectedCountry}`);
-      return response.data;
-    }
-  };
-
-  const { data, error, isLoading } = useQuery(
-    ["CountryData", selectedCountry],
-    fetchData
-  );
-
-  if (isLoading || loader) {
-    return <Typography my={5} left={"50%"} className="loader"></Typography>;
-  }
-
-  if (error) {
-    alert("There are some issues our team has encountered soon");
-  }
-
   return (
     <>
-      <Stack sx={{ flexDirection: { xs: "column", md: "row" } }} gap={2} my={3}>
+      <Stack sx={{ flexDirection: { xs: "column", sm: "row" } }} gap={2} my={3}>
         <Card
           sx={{
             width: "100%",
