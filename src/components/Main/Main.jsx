@@ -8,6 +8,7 @@ import Cards from "../cardsData/Cards";
 import MapShow from "../map/MapShow";
 import axios from "axios";
 import "../Loader/Loader.css";
+import loaderImage from "../images/virus.png";
 
 function Main() {
   const queryClient = useQueryClient();
@@ -41,7 +42,26 @@ function Main() {
   );
 
   if (isLoading || loader) {
-    return <Typography ml={"45%"} mt={"20%"} className="loader"></Typography>;
+    return (
+      <>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20%",
+          }}
+        >
+          <img
+            className="loaderImg"
+            src={loaderImage}
+            height={80}
+            width={80}
+            alt="loader"
+          />
+        </div>
+      </>
+    );
+    // <Typography ml={"45%"} mt={"20%"} className="loader"></Typography>;
   }
 
   if (error) {
